@@ -1,0 +1,361 @@
+/* Wrapper layout */
+.live-orders-wrapper {
+  display: flex;
+  height: calc(100vh - 80px); /* adjust for navbar height */
+  background-color: #f4f9fb; /* soft blue hint */
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Sidebar */
+.live-sidebar {
+  width: 220px;
+  background-color: #eaf6f8;
+  padding: 20px 15px;
+  border-right: 1px solid #d0e6ea;
+}
+
+.live-sidebar-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #004d4d;
+  margin-bottom: 15px;
+}
+
+.live-sidebar .btn-mini {
+  background-color: #009688;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+.live-sidebar .btn-mini:hover {
+  background-color: #00796b;
+}
+
+.live-sidebar label.text-sm {
+  flex: 1;
+  color: #333;
+}
+
+/* Toggle switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 38px;
+  height: 20px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: #ccc;
+  transition: 0.3s;
+  border-radius: 20px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #009688;
+}
+
+input:checked + .slider:before {
+  transform: translateX(18px);
+}
+
+/* Main content */
+.live-orders-content {
+  flex: 1;
+  padding: 20px;
+  overflow-x: auto;
+}
+
+/* Horizontal scroll for orders */
+.horizontal-scroll {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+.horizontal-scroll::-webkit-scrollbar {
+  height: 8px;
+}
+.horizontal-scroll::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+/* Order card */
+.order-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  padding: 12px;
+  width: 240px;
+  min-height: 200px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.order-card-header {
+  font-size: 0.9rem;
+}
+
+.order-time {
+  font-size: 0.8rem;
+  font-weight: bold;
+  margin-top: 4px;
+}
+
+/* Remove button */
+.remove-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #f44336;
+  color: white;
+  border: none;
+  padding: 4px 6px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.75rem;
+}
+.remove-button:hover {
+  background: #d32f2f;
+}
+
+/* Status dot */
+.order-status-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+.status-paid {
+  background-color: #4caf50;
+}
+.status-unpaid {
+  background-color: #ff9800;
+}
+
+/* Ingredient summary list */
+.order-card ul {
+  padding-left: 16px;
+}
+
+.order-card .bg-green-100 {
+  background-color: #e6f4ea !important;
+}
+.order-card .bg-yellow-100 {
+  background-color: #fff9e6 !important;
+}
+
+/* Flex items in sidebar */
+.live-sidebar .flex {
+  display: flex;
+  align-items: center;
+}
+/* --- Card top controls bar --- */
+.card-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  padding: 6px;
+  background: #e3f4f2;              /* soft teal tint */
+  border-radius: 10px;
+  border: 1px solid #d0ebe8;
+}
+
+/* Round, equal-size buttons on both sides */
+.control-btn {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+}
+
+.control-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.10);
+}
+
+/* Left: report (amber) */
+.control-btn--report {
+  color: #b26a00;
+  background: #fff7e6;
+  border: 1px solid #ffe3b3;
+}
+.control-btn--report:hover {
+  background: #ffefcc;
+}
+
+/* Right: remove (red) */
+.control-btn--remove {
+  color: #a90f0f;
+  background: #ffecec;
+  border: 1px solid #ffcaca;
+}
+.control-btn--remove:hover {
+  background: #ffdcdc;
+}
+
+/* --- Order card spacing tweak since controls bar is no longer absolute --- */
+.order-card {
+  padding: 10px 12px 12px 12px;  /* a little tighter top due to controls bar */
+}
+
+/* --- “Updated” / Options / Note pills --- */
+.pill {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 4px 8px;
+  font-size: 12px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  width: fit-content;
+}
+
+/* subtle attention tag next to meal name when either note or options exist */
+.pill--changed {
+  margin-left: 8px;
+  background: #e6f4ea;
+  border-color: #cfe7d5;
+  color: #256029;
+  font-weight: 600;
+}
+
+/* full-width blocks for details */
+.pill--options, .pill--note {
+  display: block;
+  border-radius: 8px;           /* rectangular chips for readability */
+  width: 100%;
+}
+
+.pill--options {
+  background: #e8f5e9;          /* green-ish */
+  border-color: #cfe8d2;
+  color: #1b5e20;
+}
+
+.pill--note {
+  background: #fff8e1;          /* yellow-ish */
+  border-color: #ffe2a8;
+  color: #7a4e00;
+}
+
+/* Keep your status dot colors consistent */
+.order-status-dot { width:10px; height:10px; border-radius:50%; margin-right:6px; display:inline-block; }
+.status-paid { background:#4caf50; }
+.status-unpaid { background:#ff9800; }
+/* Controls row */
+.card-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  padding: 6px;
+  background: #e9f7f6;
+  border: 1px solid #d6eeec;
+  border-radius: 10px;
+}
+.card-controls__spacer { flex: 1; }
+
+.control-btn {
+  width: 28px; height: 28px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 999px; border: none; cursor: pointer;
+  background: #fff; font-size: 16px; line-height: 1;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+  transition: transform .12s, box-shadow .12s, background .12s;
+}
+.control-btn:hover { transform: translateY(-1px); box-shadow: 0 3px 6px rgba(0,0,0,0.10); }
+.control-btn--report { color:#b26a00; background:#fff7e6; border:1px solid #ffe3b3; }
+.control-btn--report:hover { background:#ffefcc; }
+.control-btn--remove { color:#a90f0f; background:#ffecec; border:1px solid #ffcaca; }
+.control-btn--remove:hover { background:#ffdcdc; }
+
+/* Compact item row */
+.kds-item { margin-bottom: 6px; }
+.kds-item__row {
+  display: grid; grid-template-columns: 1fr auto; gap: 10px;
+  align-items: center; cursor: pointer;
+  padding: 4px 6px; border-radius: 8px;
+}
+.kds-item__row:hover { background: #f5faf9; }
+.kds-item__name { font-size: 0.95rem; }
+.kds-item__chips { display: inline-flex; gap: 6px; }
+
+.chip {
+  display: inline-block; font-size: 10px; font-weight: 600;
+  padding: 2px 8px; border-radius: 999px; border: 1px solid transparent;
+  white-space: nowrap; max-width: 90px; overflow: hidden; text-overflow: ellipsis;
+}
+.chip--opt  { background:#e8f5e9; border-color:#cfe8d2; color:#1b5e20; }
+.chip--note { background:#fff3cd; border-color:#ffe2a8; color:#7a4e00; }
+
+/* Expanded detail blocks (only when user clicks item) */
+.kds-item__details { margin: 4px 0 0 4px; display: grid; gap: 4px; }
+.detail {
+  font-size: 12px; padding: 6px 8px; border-radius: 8px; border: 1px solid transparent;
+}
+.detail--opt  { background:#eef9f0; border-color:#d7efe0; }
+.detail--note { background:#fff7e6; border-color:#ffe3b3; }
+
+/* Collapsible ingredient summary */
+.kds-summary { margin-top: 8px; }
+.kds-summary__toggle {
+  background: transparent; border: none; cursor: pointer;
+  padding: 6px 0; font-weight: 600; display: inline-flex; gap: 6px; align-items: center;
+}
+.kds-summary__count { font-weight: 500; color:#607d8b; }
+.kds-summary__list { margin-top: 4px; padding-left: 18px; }
+.kds-summary__list li { margin: 2px 0; }
+
+/* Make cards a bit slimmer */
+.order-card { width: 260px; padding-top: 10px; }
+.order-card ul { padding-left: 16px; }
+.kds-summary--inline { font-size: 12px; color:#455a64; margin-top: 6px; }
+.kds-item__details {
+  margin-top: 2px;
+  display: grid;
+  gap: 3px;
+}
+.detail {
+  font-size: 12px;
+  padding: 4px 6px;
+  border-radius: 8px;
+}

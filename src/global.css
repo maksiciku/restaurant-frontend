@@ -1,0 +1,116 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f0faff; /* Light blue soft background */
+    margin: 0;
+    padding: 0;
+    color: #1a1a1a;
+  }
+  
+  h1, h2, h3 {
+    color: #00587a;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  th, td {
+    padding: 12px 18px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  th {
+    background-color: #e0f7ff;
+    color: #00587a;
+    font-weight: 600;
+  }
+  
+  tr:hover {
+    background-color: #f5fcff;
+  }
+  
+  button {
+    background-color: #00aaff;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    margin: 4px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #0077b6;
+  }
+  body {
+    background-color: #f0f4ff; /* white with a hint of soft blue */
+    margin: 0;
+    font-family: sans-serif;
+  }
+   /* ✅ General Button Style */
+button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* ✅ Action Buttons (Green) */
+button.bg-green,
+button.add-button {
+  background-color: #4CAF50;
+  color: white;
+}
+
+button.bg-green:hover,
+button.add-button:hover {
+  background-color: #45a049;
+}
+
+/* ✅ Danger Buttons (Red) */
+button.bg-red {
+  background-color: #e53935;
+  color: white;
+}
+
+button.bg-red:hover {
+  background-color: #c62828;
+}
+
+/* ✅ Info Buttons (Blue) */
+button.bg-blue,
+button.view-button {
+  background-color: #1976d2;
+  color: white;
+}
+
+button.bg-blue:hover,
+button.view-button:hover {
+  background-color: #1565c0;
+}
+
+/* ✅ Logout */
+.logout-button {
+  background-color: #ffffff;
+  color: #03036e;
+  font-weight: 700;
+  padding: 8px 14px;
+  border: 2px solid #ffffff;
+  border-radius: 8px;
+}
+
+.logout-button:hover {
+  background-color: #ffeb3b;
+  color: #000;
+}

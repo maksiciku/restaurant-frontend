@@ -1,0 +1,21 @@
+/* StockPage.css */
+
+.page-card {
+    transform: scale(0.95); /* Adjust zoom level */
+    transform-origin: top center;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  /* Optional tweak for smaller screens */
+  @media screen and (max-width: 768px) {
+    .page-card {
+      transform: scale(1); /* No zoom on mobile */
+    }
+  }
+  

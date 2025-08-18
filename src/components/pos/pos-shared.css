@@ -1,0 +1,82 @@
+:root{
+  --pos-primary: #0a6e6f;     /* match your teal buttons */
+  --pos-primary-hover: #0d8587;
+  --pos-primary-active: #096061;
+  --pos-text-on-primary: #ffffff;
+  --pos-shadow: 0 6px 14px rgba(0,0,0,.12);
+  --pos-shadow-sm: 0 3px 8px rgba(0,0,0,.10);
+  --radius-lg: 16px;
+}
+
+/* ============ CATEGORY CHIP (left) ============ */
+.pos-chip{
+  display:flex;
+  align-items:center;
+  gap:.55rem;
+  width:100%;
+  background: var(--pos-primary);
+  color: var(--pos-text-on-primary);
+  border:none;
+  border-radius: var(--radius-lg);
+  padding: .9rem 1rem;
+  font-weight: 600;
+  font-size: 0.98rem;
+  cursor:pointer;
+  box-shadow: var(--pos-shadow-sm);
+  transition: transform .12s ease, box-shadow .12s ease, background .12s ease, filter .12s ease;
+  text-align:left;
+}
+.pos-chip:hover{ background: var(--pos-primary-hover); transform: translateY(-1px); box-shadow: var(--pos-shadow); }
+.pos-chip:active{ background: var(--pos-primary-active); transform: translateY(0); }
+.pos-chip.is-active{ outline: 2px solid rgba(255,255,255,.25); filter: brightness(1.05); }
+
+.chip-icon{ font-size: 1.05rem; line-height: 1; }
+.chip-label{ flex:1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* ============ ITEM CARD (center grid) ============ */
+.pos-card{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:.3rem;
+  width:100%;
+  min-height: 96px;                     /* bigger */
+  background: var(--pos-primary);
+  color: var(--pos-text-on-primary);
+  border:none;
+  border-radius: var(--radius-lg);
+  padding: 1rem;
+  font-weight: 700;
+  text-align:center;
+  cursor:pointer;
+  box-shadow: var(--pos-shadow-sm);
+  transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+}
+.pos-card:hover{ background: var(--pos-primary-hover); transform: translateY(-2px); box-shadow: var(--pos-shadow); }
+.pos-card:active{ background: var(--pos-primary-active); transform: translateY(0); }
+
+.card-title {
+  font-size: 1.02rem;
+  line-height: 1.2;
+  max-width: 100%;
+  display: -webkit-box;
+  display: box; /* ✅ standard */
+  -webkit-line-clamp: 2;
+  line-clamp: 2; /* ✅ standard */
+  -webkit-box-orient: vertical;
+  box-orient: vertical; /* ✅ standard */
+  overflow: hidden;
+}
+
+.card-price{
+  font-size: .95rem;
+  font-weight: 600;
+  opacity: .95;
+}
+
+/* Optional: make your grid breathe a bit more */
+.items-grid{
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); /* wider tiles */
+  gap: 14px;
+}

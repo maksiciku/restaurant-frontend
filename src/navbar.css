@@ -1,0 +1,86 @@
+:root {
+  --teal: #008080;
+  --teal-dark: #006666;
+  --white: #ffffff;
+  --yellow-hover: #ffeb3b;
+  --red: #d32f2f;
+  --red-dark: #b71c1c;
+  --body-bg: #f5f9ff;
+}
+
+/* === Navbar Container === */
+.navbar {
+  background-color: var(--teal) !important;
+  padding: 20px 24px 10px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* === Logo Title Centered === */
+.navbar-logo {
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--white);
+  margin-bottom: 10px;
+  text-align: center;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* === Navigation Links Horizontal and Centered === */
+.navbar-links {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.navbar-links a {
+  color: var(--white);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 8px 14px;
+  border-radius: 6px;
+  background-color: rgba(255, 255, 255, 0.05);
+  transition: 0.2s ease;
+}
+
+.navbar-links a:hover,
+.navbar-links .active {
+  background-color: var(--white);
+  color: var(--teal);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* === Logout Button Top Right === */
+.navbar-right {
+  position: absolute;
+  top: 16px;
+  right: 24px;
+}
+
+.logout-button {
+  background-color: var(--red);
+  color: var(--white);
+  border: none;
+  padding: 8px 14px;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: var(--red-dark);
+}
+
+/* === Body Background Light Blue Tint === */
+body {
+  background-color: var(--body-bg);
+}

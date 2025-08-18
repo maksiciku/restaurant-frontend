@@ -1,0 +1,147 @@
+/* ===== PreplistPage.css ===== */
+:root {
+  --pp-bg: #f8fafc;            /* page background */
+  --pp-card: #ffffff;          /* card background */
+  --pp-text: #0f172a;          /* headings */
+  --pp-subtext: #475569;       /* body text */
+  --pp-brand: #0ea5e9;         /* cyan/teal accent */
+  --pp-brand-600: #0284c7;
+  --pp-success: #16a34a;
+  --pp-warning: #f59e0b;
+  --pp-danger: #ef4444;
+  --pp-ring: rgba(14, 165, 233, 0.35);
+  --pp-radius: 14px;
+  --pp-shadow: 0 10px 24px rgba(2, 6, 23, 0.08);
+  --pp-shadow-hover: 0 16px 32px rgba(2, 6, 23, 0.12);
+}
+
+/* page scaffold */
+.preplist-page {
+  background: radial-gradient(1200px 800px at 10% -10%, #e0f2fe 0%, transparent 55%),
+              radial-gradient(1000px 700px at 120% 0%, #f1f5f9 0%, transparent 50%),
+              var(--pp-bg);
+}
+
+/* headings */
+.preplist-page h1 {
+  color: var(--pp-text);
+  letter-spacing: -0.02em;
+}
+.preplist-page h2 {
+  color: #0f766e;
+  letter-spacing: -0.01em;
+}
+
+/* cards (the white blocks) */
+.preplist-page .preplist-card,
+.preplist-page .p-6.bg-white.rounded-xl,
+.preplist-page .p-4.bg-white.rounded-xl,
+.preplist-page .p-4.bg-white.rounded-lg {
+  background: var(--pp-card) !important;
+  border: 1px solid rgba(2, 6, 23, 0.06) !important;
+  border-radius: var(--pp-radius) !important;
+  box-shadow: var(--pp-shadow) !important;
+  transition: box-shadow .2s ease, transform .15s ease;
+}
+.preplist-page .preplist-card:hover,
+.preplist-page .p-4.bg-white.rounded-xl:hover,
+.preplist-page .p-6.bg-white.rounded-xl:hover,
+.preplist-page .p-4.bg-white.rounded-lg:hover {
+  box-shadow: var(--pp-shadow-hover) !important;
+  transform: translateY(-1px);
+}
+
+/* list items in "Today’s Prep List" */
+.preplist-page li.p-4.bg-white {
+  border-color: rgba(245, 158, 11, 0.35) !important; /* soften yellow border */
+}
+
+/* inputs */
+.preplist-page input[type="text"],
+.preplist-page input[type="number"] {
+  border: 1px solid rgba(2, 6, 23, 0.12) !important;
+  border-radius: 10px !important;
+  background: #fff;
+  color: var(--pp-text);
+  transition: box-shadow .2s ease, border-color .2s ease, transform .05s ease;
+  outline: none;
+}
+.preplist-page input[type="text"]:focus,
+.preplist-page input[type="number"]:focus {
+  border-color: var(--pp-brand-600) !important;
+  box-shadow: 0 0 0 3px var(--pp-ring);
+}
+.preplist-page input::-webkit-outer-spin-button,
+.preplist-page input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* generic buttons (keeps your Tailwind but adds polish) */
+.preplist-page button {
+  border-radius: 12px;
+  font-weight: 600;
+  letter-spacing: .01em;
+  transition: transform .05s ease, box-shadow .2s ease, background-color .2s ease, opacity .2s ease;
+  box-shadow: 0 2px 0 rgba(2, 6, 23, 0.05);
+}
+.preplist-page button:hover { transform: translateY(-1px); }
+.preplist-page button:active { transform: translateY(0); }
+
+/* primary action hint (Save, Prepare, etc.) */
+.preplist-page .bg-green-600,
+.preplist-page .hover\:bg-green-700:hover {
+  box-shadow: 0 6px 14px rgba(22, 163, 74, 0.25);
+}
+.preplist-page .bg-blue-500 {
+  box-shadow: 0 6px 14px rgba(14, 165, 233, 0.25);
+}
+
+/* icon-only action buttons in item cards */
+.preplist-page .text-gray-600:hover {
+  color: var(--pp-brand-600) !important;
+}
+
+/* autocomplete dropdown (add className="autocomplete-panel" to that div if you can) */
+.preplist-page .autocomplete-panel,
+.preplist-page .absolute.bg-white.border.mt-1.rounded.shadow.z-10 {
+  border: 1px solid rgba(2, 6, 23, 0.12) !important;
+  border-radius: 12px !important;
+  box-shadow: var(--pp-shadow);
+  overflow: hidden;
+}
+.preplist-page .autocomplete-panel > div,
+.preplist-page .absolute.bg-white.border.mt-1.rounded.shadow.z-10 > div {
+  padding: 8px 12px;
+  transition: background-color .15s ease;
+}
+.preplist-page .autocomplete-panel > div:hover,
+.preplist-page .absolute.bg-white.border.mt-1.rounded.shadow.z-10 > div:hover {
+  background: #e6f6ff;
+}
+
+/* subtle separators */
+.preplist-page ul.grid.gap-4 > li + li {
+  position: relative;
+}
+.preplist-page ul.grid.gap-4 > li + li::before {
+  content: "";
+  position: absolute;
+  top: -8px; left: 12px; right: 12px;
+  height: 1px;
+  background: rgba(2, 6, 23, 0.06);
+  border-radius: 1px;
+}
+
+/* “Prepare Now” button emphasis */
+.preplist-page button.mt-2.bg-green-600 {
+  background: linear-gradient(180deg, #22c55e, #16a34a) !important;
+}
+.preplist-page button.mt-2.bg-green-600:hover {
+  filter: brightness(1.02);
+}
+
+/* print label popup body (when it opens a window) */
+@media print {
+  body { background: #fff; }
+}
