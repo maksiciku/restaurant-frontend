@@ -14,6 +14,7 @@ const LoginPage = ({ onLogin }) => {
                 localStorage.setItem('token', token);
                 localStorage.setItem('role', role);
                 onLogin(role); // Notify parent component
+                axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
             })
             .catch(() => {
                 setError('Invalid username or password');
