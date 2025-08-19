@@ -1,24 +1,24 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../api';   // ✅ use your api.js wrapper
 
 const LoginPage = ({ onLogin }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
-        axios.post(`${process.env.REACT_APP_API_URL}/login`, { username, password })
-        .then(response => {
-                const { token, role } = response.data;
-                localStorage.setItem('token', token);
-                localStorage.setItem('role', role);
-                onLogin(role); // Notify parent component
-                axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-            })
-            .catch(() => {
-                setError('Invalid username or password');
-            });
+        try {
+            const response = await api.post('/login', { username, password }); 
+            const { token, role } = response.data;
+
+            localStorage.setItem('token', token);
+            localStorage.setItem('role', role);
+
+            onLogin(role); // Notify parent
+        } catch (err) {
+            setError('Invalid username or password');
+        }
     };
 
     return (
