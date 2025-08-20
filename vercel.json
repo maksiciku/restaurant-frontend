@@ -1,9 +1,6 @@
 {
   "version": 2,
   "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "https://maks-backend.onrender.com/$1"
-    }
+    { "source": "/api/:path*", "destination": "https://maks-backend.onrender.com/:path*" }
   ]
 }
