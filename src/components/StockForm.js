@@ -28,7 +28,7 @@ const StockForm = ({ onStockAdded }) => {
     formData.append("image", image);
 
     try {
-      const response = await axios.post("http://localhost:5000/scan-ingredient-image", formData, {
+      const response = await api.post("http://localhost:5000/scan-ingredient-image", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
@@ -52,7 +52,7 @@ const StockForm = ({ onStockAdded }) => {
     }
 
     try {
-      await axios.post(
+      await api.post(
         "http://localhost:5000/stock",
         {
           ingredient: ingredientName,

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import './LiveOrdersPage.css';
 import { useNavigate } from 'react-router-dom';
@@ -48,7 +48,7 @@ const toggleItem  = (key) => setOpenItem(prev => ({ ...prev, [key]: !prev[key] }
   // --- fetch estimated delay ---
   const fetchEstimatedDelay = async () => {
     try {
-      const res = await axios.get(`${API_BASE}/kitchen/estimated-delay`);
+      const res = await api.get(`${API_BASE}/kitchen/estimated-delay`);
       setEstimatedDelay(res.data.delay);
     } catch (err) {
       console.error("❌ Failed to fetch estimated delay", err);
@@ -58,7 +58,7 @@ const toggleItem  = (key) => setOpenItem(prev => ({ ...prev, [key]: !prev[key] }
   // --- delivery actions ---
   const handleDeliveryAction = async (batchId, status) => {
     try {
-      const response = await axios.put(
+      const response = await api.put(
         `${API_BASE}/orders/delivery-status/${batchId}`,
         { status },
         { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
@@ -216,7 +216,7 @@ const getItemNote = (item) => {
 
   const deleteOrder = async (id) => {
     try {
-      await axios.delete(`${API_BASE}/orders/${id}`);
+      await api.delete(`${API_BASE}/orders/${id}`);
       fetchOrders();
       setClearedOrders((prev) => [...prev, orders.find((o) => o.id === id)]);
     } catch (err) {
@@ -226,7 +226,7 @@ const getItemNote = (item) => {
 
   const clearAllOrders = async () => {
     try {
-      await axios.delete(`${API_BASE}/orders/clear-all`, {
+      await api.delete(`${API_BASE}/orders/clear-all`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
       setClearedOrders((prev) => [...prev, ...orders]);
@@ -271,7 +271,7 @@ const getItemNote = (item) => {
     const redo = window.confirm("Do you want to redo this order?");
 
     try {
-      await axios.post(`${API_BASE}/reports`, {
+      await api.post(`${API_BASE}/reports`, {
         order_id: orderId,
         item_name: itemName,
         reason,
@@ -289,7 +289,7 @@ const getItemNote = (item) => {
 
   const fetchPauseStatus = async () => {
     try {
-      const res = await axios.get(`${API_BASE}/kitchen/pause-status`);
+      const res = await api.get(`${API_BASE}/kitchen/pause-status`);
       setIsPaused(res.data.is_paused);
     } catch (err) {
       console.error("❌ Failed to fetch pause status", err);
@@ -298,7 +298,7 @@ const getItemNote = (item) => {
 
   const togglePause = async () => {
     try {
-      await axios.put(`${API_BASE}/kitchen/pause-status`, { is_paused: !isPaused });
+      await api.put(`${API_BASE}/kitchen/pause-status`, { is_paused: !isPaused });
       setIsPaused(!isPaused);
     } catch (err) {
       console.error("❌ Failed to update pause status", err);

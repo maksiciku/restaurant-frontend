@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from '../api';
 import MealModal from '../components/MealModal';
 import './PosPage.css';
 import { useParams } from 'react-router-dom';
@@ -10,6 +10,7 @@ import TableMapModal from '../components/TableMapModal';
 import CategoryTile from '../components/pos/CategoryTile';
 import ItemCard from '../components/pos/ItemCard';
 import OrderLine from '../components/pos/OrderLine';
+
 
 const PosPage = () => {
   const [selectedTable, setSelectedTable] = useState(null);
@@ -63,7 +64,6 @@ const [showMiscModal, setShowMiscModal] = useState(false);
 const [miscName, setMiscName] = useState('');
 const [miscPrice, setMiscPrice] = useState('');
 const [search, setSearch] = useState('');
-const API = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 const [showOthers, setShowOthers] = useState(false);
 const [showComplaint, setShowComplaint] = useState(false);
 const [complaint, setComplaint] = useState({ order_id:'', item_name:'', reason:'', reported_by:'', quantity:1, redo:false });
@@ -122,7 +122,7 @@ useEffect(() => {
     const fetchItemsByCategory = async (category) => {
   try {
     const token = localStorage.getItem('token');
-    const res = await axios.get(`${API}/meals?category=${encodeURIComponent(category)}`, {
+    const res = await api.get(`${API}/meals?category=${encodeURIComponent(category)}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     setMeals(Array.isArray(res.data) ? res.data : []);
@@ -144,7 +144,7 @@ useEffect(() => {
   useEffect(() => {
   const fetchTables = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/tables');
+      const res = await api.get('http://localhost:5000/tables');
       setTables(res.data);
     } catch (err) {
       console.error('❌ Failed to load tables:', err);
@@ -206,7 +206,7 @@ useEffect(() => {
 
   const fetchTableId = async () => {
     try {
-      const res = await axios.get(`${process.env.REACT_APP_API_URL}/tables`);
+      const res = await api.get(`${process.env.REACT_APP_API_URL}/tables`);
       const matched = res.data.find(t => t.name === selectedTable);
       if (matched) {
         setSelectedTable(matched.id); // ✅ Save correct ID
@@ -241,7 +241,7 @@ useEffect(() => {
   };
 
   useEffect(() => {
-  axios.get('http://localhost:5000/tables').then(res => {
+  api.get('http://localhost:5000/tables').then(res => {
     setTables(res.data); // Assuming your `/tables` route returns all table names
   });
 }, []);
@@ -253,7 +253,7 @@ const handleTransferClick = () => {
 
 const handleSelectNewTable = async (newTable) => {
   try {
-    await axios.put('/pos-orders/transfer-table', {
+    await api.put('/pos-orders/transfer-table', {
       oldTable: selectedTable,
       newTable,
     });
@@ -282,7 +282,7 @@ const visibleMeals = meals.filter(m =>
 
 const fetchUnpaidOrders = async (tableNumber) => {
   try {
-    const response = await axios.get(
+    const response = await api.get(
       `${API}/orders/by-table/${encodeURIComponent(tableNumber)}`
     );
     setOrders(response.data);
@@ -293,7 +293,7 @@ const fetchUnpaidOrders = async (tableNumber) => {
 
 const fetchCategories = async () => {
   try {
-    const res = await axios.get(`${API}/categories`);
+    const res = await api.get(`${API}/categories`);
     setCategories(res.data);
     if (res.data.length) {
       setSelectedCategory(res.data[0].name);
@@ -358,7 +358,7 @@ if (cart.length === 0 || (orderType === 'dine-in' && !selectedTableId)) {
   note: item.note || '',
 }));
 
-    await axios.post(`${process.env.REACT_APP_API_URL}/orders/grouped`, {
+    await api.post(`${process.env.REACT_APP_API_URL}/orders/grouped`, {
 table_number: orderType === 'dine-in' ? (selectedTableName || selectedTableId) : null,
 order_type: orderType,
       items,
@@ -368,7 +368,7 @@ order_type: orderType,
       }
     });
 
-    await axios.post(`${process.env.REACT_APP_API_URL}/tables/${selectedTableId}/status`, {
+    await api.post(`${process.env.REACT_APP_API_URL}/tables/${selectedTableId}/status`, {
       status: 'occupied',
     }, {
       headers: {
@@ -380,7 +380,7 @@ order_type: orderType,
     setCart([]);
     setLoadedFromDB(false);
 
-    const totalRes = await axios.get(`${process.env.REACT_APP_API_URL}/tables/${selectedTableId}/total`, {
+    const totalRes = await api.get(`${process.env.REACT_APP_API_URL}/tables/${selectedTableId}/total`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -401,7 +401,7 @@ const handleAddCategory = async () => {
   }
 
   try {
-    await axios.post(`${process.env.REACT_APP_API_URL}/categories`, {
+    await api.post(`${process.env.REACT_APP_API_URL}/categories`, {
       name: name.trim(),
       type: type || 'meal',
       icon: icon || '🍽️'
@@ -423,7 +423,7 @@ const handleAddCategory = async () => {
 
 const closeTable = async () => {
   try {
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/tables`);
+    const res = await api.get(`${process.env.REACT_APP_API_URL}/tables`);
     const selected = res.data.find(t => t.id === selectedTable);
     const tableName = selected?.name || selectedTable;
 
@@ -435,11 +435,11 @@ const closeTable = async () => {
     setLoadedFromDB(false);
 
     // Backend: clear orders and free table
-    await axios.post(`${process.env.REACT_APP_API_URL}/orders/close`, {
+    await api.post(`${process.env.REACT_APP_API_URL}/orders/close`, {
       table_number: tableName,
     });
 
-    await axios.post(`${process.env.REACT_APP_API_URL}/tables/${selectedTable}/status`, {
+    await api.post(`${process.env.REACT_APP_API_URL}/tables/${selectedTable}/status`, {
       status: 'free',
     });
 
@@ -459,7 +459,7 @@ const closeTable = async () => {
 
 const fetchOrders = async () => {
   try {
-    const res = await axios.get(`${API}/orders/by-table/${encodeURIComponent(selectedTable)}`);
+    const res = await api.get(`${API}/orders/by-table/${encodeURIComponent(selectedTable)}`);
     setPreviousOrders(res.data);
   } catch (err) {
     console.error('❌ Error fetching orders:', err.message);
@@ -474,7 +474,7 @@ const handleSplitPay = async () => {
 
   try {
     console.log('🔍 Sending itemIds:', selectedItems);
-     const response = await axios.post(`${API}/orders/split-pay`, {
+     const response = await api.post(`${API}/orders/split-pay`, {
    itemIds: selectedItems,
  }, {
    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
@@ -498,7 +498,7 @@ const handleCategoryClick = (name) => {
 const handleDeleteCategory = async (id) => {
   if (!window.confirm('Delete this category? This cannot be undone.')) return;
   try {
-    await axios.delete(`${API}/categories/${id}`, {
+    await api.delete(`${API}/categories/${id}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
     });
     // Hide delete icon and refresh list
@@ -512,7 +512,7 @@ const handleDeleteCategory = async (id) => {
 
   const clearUnpaidOrders = async () => {
     try {
-        const res = await axios.delete(
+        const res = await api.delete(
             `${process.env.REACT_APP_API_URL}/orders/clear-unpaid/${encodeURIComponent(selectedTable)}`
           );          
       alert(res.data.message || 'Unpaid orders cleared.');
@@ -553,7 +553,7 @@ const handleDeleteCategory = async (id) => {
 
 const handleSplitByPeople = async () => {
   try {
-    const response = await axios.post(`${API}/orders/split-by-people`, {
+    const response = await api.post(`${API}/orders/split-by-people`, {
       table_number: selectedTable,
       people: peopleCount
     });
@@ -568,7 +568,7 @@ const handleSplitByPeople = async () => {
 
 const handlePayShare = async () => {
   try {
-    const response = await axios.post(`${API}/orders/pay-share`, {
+    const response = await api.post(`${API}/orders/pay-share`, {
       table_number: selectedTable,
       amount: sharePerPerson
     });
@@ -599,7 +599,7 @@ const handleCompletePayment = async () => {
       return;
     }
 
-    const unpaidRes = await axios.get(
+    const unpaidRes = await api.get(
       `${API}/orders/by-table/${encodeURIComponent(selectedTable)}`,
       { headers: { Authorization: `Bearer ${token}` } }
     );
@@ -614,7 +614,7 @@ const handleCompletePayment = async () => {
     const itemIds = unpaid.map(i => i.id);
 
     // 3) Mark them paid
-    await axios.post(`${API}/orders/mark-paid`, {
+    await api.post(`${API}/orders/mark-paid`, {
       tableNumber: selectedTable,
       itemIds,
       paymentMethod: selectedPaymentMethod || 'Cash',
@@ -668,7 +668,7 @@ const handleTransferTable = async (targetTable) => {
   }
 
   try {
-    await axios.put(`${API}/pos-orders/transfer-table`, {
+    await api.put(`${API}/pos-orders/transfer-table`, {
       oldTable: selectedTable.toString(),
       newTable: targetTable.toString()
     });
@@ -1249,7 +1249,7 @@ const applyDiscount = () => {
           className="pos-button save"
           onClick={async ()=>{
             try{
-              await axios.post(`${API}/reports`, {
+              await api.post(`${API}/reports`, {
                 order_id: complaint.order_id || null,
                 item_name: complaint.item_name,
                 reason: complaint.reason,
