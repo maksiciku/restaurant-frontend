@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { isDrinkItem } from '../utils/classifyItem';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -25,7 +25,7 @@ const InvoiceScanner = () => {
     formData.append("invoice", selectedFile); // match `upload.single('invoice')`
 
     try {
-      const response = await axios.post(
+      const response = await api.post(
         `${process.env.REACT_APP_API_URL}/invoices/scan-preview`,
         formData,
         { headers: { 'Content-Type': 'multipart/form-data' } }
@@ -81,7 +81,7 @@ const InvoiceScanner = () => {
             ? '/drinks'
             : '/stock';
 
-        await axios.post(`${process.env.REACT_APP_API_URL}${route}`, payload, {
+        await api.post(`${process.env.REACT_APP_API_URL}${route}`, payload, {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         });
 

@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import StockForm from "../components/StockForm";  // ✅ Import StockForm
 import './StockPage.css';
 import novaKnowledge from '../utils/novaKnowledge'; // Adjust path if needed
 
-const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 const StockPage = () => {
     const [stock, setStock] = useState([]);
@@ -29,20 +28,19 @@ const StockPage = () => {
       }
     }, [selectedIngredient]);
     
-    const fetchStock = async () => {
-        try {
-          const response = await axios.get(`${API_BASE_URL}/stock`, {
-          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-            });
-            setStock(response.data);
-        } catch (error) {
-            toast.error('❌ Error fetching stock.');
-        }
-    };
+    // inside StockPage.js
+const fetchStock = async () => {
+  try {
+    const { data } = await api.get('/stock');
+    setStock(data);
+  } catch (error) {
+    toast.error('❌ Error fetching stock.');
+  }
+};
 
     const handleAddStock = async (newStockItem) => {
         try {
-          await axios.post(`${process.env.REACT_APP_API_URL}/stock`, newStockItem, {
+          await api.post(`${process.env.REACT_APP_API_URL}/stock`, newStockItem, {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
             });
             toast.success('✅ Stock added successfully!');
@@ -61,7 +59,7 @@ const StockPage = () => {
         }
     
         try {
-            await axios.put(
+            await api.put(
                 `${process.env.REACT_APP_API_URL}/stock/${id}`,
                 {
                     ...(updated.ingredient !== undefined && { ingredient: updated.ingredient }),
@@ -87,7 +85,7 @@ const StockPage = () => {
 
     const handleDeleteStock = async (id) => {
         try {
-          await axios.delete(`${process.env.REACT_APP_API_URL}/stock/${id}`, { 
+          await api.delete(`${process.env.REACT_APP_API_URL}/stock/${id}`, { 
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
             });
             toast.success('🗑️ Stock deleted successfully!');
@@ -102,7 +100,7 @@ const StockPage = () => {
             const confirmed = window.confirm("Delete ALL expired stock?");
             if (!confirmed) return;
 
-            const res = await axios.delete(`${process.env.REACT_APP_API_URL}/stock/expired`, {
+            const res = await api.delete(`${process.env.REACT_APP_API_URL}/stock/expired`, {
                 headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
             });
             toast.success(res.data.message);
@@ -117,7 +115,7 @@ const StockPage = () => {
             const confirmed = window.confirm("Delete this expired item?");
             if (!confirmed) return;
 
-            const res = await axios.delete(`${process.env.REACT_APP_API_URL}/stock/expired/${id}`, {
+            const res = await api.delete(`${process.env.REACT_APP_API_URL}/stock/expired/${id}`, {
                 headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
             });
             toast.success(res.data.message);
@@ -129,7 +127,7 @@ const StockPage = () => {
 
     const fetchExpiringSoon = async () => {
         try {
-            const response = await axios.get(`${process.env.REACT_APP_API_URL}/stock`, {
+            const response = await api.get(`${process.env.REACT_APP_API_URL}/stock`, {
                 headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
             });
             setExpiringSoon(response.data);
@@ -139,7 +137,7 @@ const StockPage = () => {
     };
 
     const updatePrice = (id, newPrice) => {
-        axios.put(`/stock/${id}`, { price: parseFloat(newPrice) }, {
+        api.put(`/stock/${id}`, { price: parseFloat(newPrice) }, {
             headers: { Authorization: `Bearer ${token}` },
         })
         .then(() => {
@@ -151,7 +149,7 @@ const StockPage = () => {
       
       const fetchCheapestSupplier = async (ingredientName) => {
         try {
-          const res = await axios.get(`${process.env.REACT_APP_API_URL}/supplier-prices/cheapest/${ingredientName}`);
+          const res = await api.get(`${process.env.REACT_APP_API_URL}/supplier-prices/cheapest/${ingredientName}`);
           setCheapestSupplier({ ...res.data, ingredient: ingredientName });
         } catch (err) {
           console.error('Error fetching cheapest supplier:', err.message);

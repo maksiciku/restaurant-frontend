@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../api';
 
 const NovaEntry = () => {
   const [items, setItems] = useState([]);
@@ -29,7 +29,7 @@ const NovaEntry = () => {
 
   const handleSave = async () => {
     try {
-       await axios.post(`http://${window.location.hostname}:5000/nova/save-trained-items`, { items });
+       await api.post(`http://${window.location.hostname}:5000/nova/save-trained-items`, { items });
         alert('✅ Nova trained successfully!');
     } catch (err) {
       console.error(err);
@@ -44,7 +44,7 @@ const NovaEntry = () => {
   formData.append('invoice', file);
 
   try {
-    const res = await axios.post(`http://${window.location.hostname}:5000/invoices/scan-preview`, formData, {
+    const res = await api.post(`http://${window.location.hostname}:5000/invoices/scan-preview`, formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     });
 

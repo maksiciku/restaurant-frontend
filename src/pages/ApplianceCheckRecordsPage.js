@@ -1,7 +1,7 @@
 // src/pages/ApplianceCheckRecordsPage.js
 
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../api';
 
 const ApplianceCheckRecordsPage = () => {
   const [records, setRecords] = useState([]);
@@ -14,7 +14,7 @@ const ApplianceCheckRecordsPage = () => {
   const fetchRecords = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get(`${API}/appliance-checks`, {
+      const res = await api.get(`${API}/appliance-checks`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setRecords(res.data);

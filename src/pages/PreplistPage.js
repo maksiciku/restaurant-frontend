@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../api';
 import PreppedItemLabel from '../components/PreppedItemLabel';
 import '../styles/PreplistPage.css';
 
@@ -17,12 +17,12 @@ const PreplistPage = () => {
   }, []);
 
   const fetchPreppedItems = async () => {
-    const res = await axios.get(`${API_BASE}/prepped-items`);
+    const res = await api.get(`${API_BASE}/prepped-items`);
     setPreppedItems(res.data);
   };
 
   const fetchTodayPrepList = async () => {
-    const res = await axios.get(`${API_BASE}/prepped-items/daily-checklist`);
+    const res = await api.get(`${API_BASE}/prepped-items/daily-checklist`);
     setTodayPrepList(res.data.checklist || []);
   };
 
@@ -40,7 +40,7 @@ const PreplistPage = () => {
   };
 
   const savePreppedItem = async () => {
-    await axios.post(`${API_BASE}/prepped-items`, newItem);
+    await api.post(`${API_BASE}/prepped-items`, newItem);
     setNewItem({ name: '', ingredients: [{ ingredient: '', amount: 0 }] });
     fetchPreppedItems();
     fetchTodayPrepList();
@@ -49,7 +49,7 @@ const PreplistPage = () => {
   const prepareBatch = async (name) => {
     const qty = parseFloat(prompt('Enter batch quantity (kg):'));
     if (!qty) return;
-    await axios.post(`${API_BASE}/prepped-items/prepare`, { name, batchQuantity: qty });
+    await api.post(`${API_BASE}/prepped-items/prepare`, { name, batchQuantity: qty });
     fetchPreppedItems();
     fetchTodayPrepList();
   };
@@ -72,7 +72,7 @@ const PreplistPage = () => {
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this prepped item?')) return;
     try {
-      await axios.delete(`${API_BASE}/prepped-items/${id}`);
+      await api.delete(`${API_BASE}/prepped-items/${id}`);
       fetchPreppedItems();
       fetchTodayPrepList();
     } catch (error) {
@@ -124,7 +124,7 @@ const PreplistPage = () => {
                 onChange={async (e) => {
                   updateIngredient(idx, 'ingredient', e.target.value);
                   if (e.target.value.length >= 2) {
-                    const res = await axios.get(`${API_BASE}/stock/search?q=${e.target.value}`);
+                    const res = await api.get(`${API_BASE}/stock/search?q=${e.target.value}`);
                     setAutocomplete(prev => ({ ...prev, [idx]: res.data }));
                   } else {
                     setAutocomplete(prev => ({ ...prev, [idx]: [] }));

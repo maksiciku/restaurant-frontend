@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
+
+const res = await api.get('/desserts');
 
 const DessertsPage = () => {
   const [desserts, setDesserts] = useState([]);
@@ -13,7 +15,7 @@ const DessertsPage = () => {
 
   const fetchDesserts = async () => {
     try {
-      const res = await axios.get(`${process.env.REACT_APP_API_URL}/meals?category=desserts`, {
+      const res = await api.get(`${process.env.REACT_APP_API_URL}/meals?category=desserts`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -49,7 +51,7 @@ const DessertsPage = () => {
         category: 'desserts',
       };
 
-      await axios.post(`${process.env.REACT_APP_API_URL}/meals`, body, {
+      await api.post(`${process.env.REACT_APP_API_URL}/meals`, body, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Tesseract from 'tesseract.js';
-import axios from 'axios';
+import api from '../api';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -42,7 +42,7 @@ const MealScanner = ({ onScanComplete }) => {
             setDetectedAllergens(detected);
 
             // Send data to backend (for meals)
-            await axios.post('http://localhost:5000/meals/scanned', {
+            await api.post('http://localhost:5000/meals/scanned', {
                 mealName: text.split("\n")[0].trim(),
                 allergens: detected
             });

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AddIngredientForm from '../components/AddIngredientsForm';
 import IngredientScanner from '../components/IngredientScanner';
+import api from '../api';   // or './api' depending on relative path
+
 
 const API_BASE = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
@@ -43,7 +44,7 @@ const DrinksPage = () => {
     
     const fetchDrinks = async () => {
   try {
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/stock`, {
+    const res = await api.get(`${process.env.REACT_APP_API_URL}/stock`, {
   headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
 });
     const allItems = res.data;
@@ -60,7 +61,7 @@ const DrinksPage = () => {
     // ✅ Fetch drink order history
     const fetchDrinkOrders = async () => {
         try {
-            const response = await axios.get(`${API_BASE}/drinks/orders`, {
+            const response = await api.get(`${API_BASE}/drinks/orders`, {
                 headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
             });
             setDrinkOrders(response.data.orders || []);
@@ -73,7 +74,7 @@ const DrinksPage = () => {
     // ✅ Fetch drinks that need restocking
     const fetchRestockList = async () => {
         try {
-            const response = await axios.get(`${API_BASE}/drinks/restock-list`, {  // ✅ FIXED: Use API_BASE_URL
+            const response = await api.get(`${API_BASE}/drinks/restock-list`, {  // ✅ FIXED: Use API_BASE_URL
                 headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
             });    
 
@@ -87,7 +88,7 @@ const DrinksPage = () => {
     // ✅ Fetch restock orders
 const fetchRestockOrders = async () => {
     try {
-        const response = await axios.get('http://localhost:5000/drinks/restock-orders', {
+        const response = await api.get('http://localhost:5000/drinks/restock-orders', {
             headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         });
 
@@ -135,7 +136,7 @@ const handleAutoRestock = async (drinkName, neededQuantity) => {
 
         const bestSupplier = availableSuppliers[0]; // Pick best supplier
 
-        const response = await axios.post(`${API_BASE}/drinks/auto-restock`, {
+        const response = await api.post(`${API_BASE}/drinks/auto-restock`, {
             drink_name: drinkName,
             needed_quantity: neededQuantity,
             supplier_name: bestSupplier.supplier_name,
@@ -169,7 +170,7 @@ const handleManualRestock = async () => {
     try {
         const supplier = selectedSupplier[drink_name];
 
-        await axios.post('http://localhost:5000/drinks/restock-orders', {
+        await api.post('http://localhost:5000/drinks/restock-orders', {
             drink_name,
             needed_quantity,
             supplier_name: supplier.supplier_name,
@@ -194,7 +195,7 @@ const handleManualRestock = async () => {
         }
 
         try {
-            await axios.post(`${API_BASE}/drinks`, newDrink, {
+            await api.post(`${API_BASE}/drinks`, newDrink, {
                 headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
             });
 
@@ -216,7 +217,7 @@ const handleManualRestock = async () => {
         }
     
         try {
-            const response = await axios.post(`${API_BASE}/drinks/order`, {
+            const response = await api.post(`${API_BASE}/drinks/order`, {
                 drink_name: drink.name, // ✅ Removed `.trim().toLowerCase()` to ensure correct format
                 quantity: 1,
             }, {
@@ -307,7 +308,7 @@ const handleManualRestock = async () => {
         formData.append("image", file);
 
         try {
-            const response = await axios.post('http://localhost:5000/scan/scan-ingredient-image', formData, {
+            const response = await api.post('http://localhost:5000/scan/scan-ingredient-image', formData, {
             headers: { Authorization: `Bearer ${localStorage.getItem('token')}`, "Content-Type": "multipart/form-data" },
             });
 
@@ -329,7 +330,7 @@ const handleManualRestock = async () => {
 
     const fetchDrinkAnalytics = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/drinks/sales-analytics', {
+            const response = await api.get('http://localhost:5000/drinks/sales-analytics', {
                 headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
             });
             setDrinkAnalytics(response.data.analytics || []);
@@ -347,7 +348,7 @@ const handleAddSupplier = async () => {
     }
 
     try {
-        await axios.post(`${API_BASE}/drinks/suppliers`, newSupplier, {
+        await api.post(`${API_BASE}/drinks/suppliers`, newSupplier, {
             headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         });
 
@@ -369,7 +370,7 @@ const handleAssignSupplier = async () => {
     }
 
     try {
-        await axios.put('http://localhost:5000/drinks/assign-supplier', selectedSupplier, {
+        await api.put('http://localhost:5000/drinks/assign-supplier', selectedSupplier, {
             headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         });
 
@@ -384,7 +385,7 @@ const handleAssignSupplier = async () => {
 // ✅ Generate Restock Orders
 const handleGenerateRestockOrders = async () => {
     try {
-        const response = await axios.post('http://localhost:5000/drinks/generate-restock-order', {}, {
+        const response = await api.post('http://localhost:5000/drinks/generate-restock-order', {}, {
             headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         });
 

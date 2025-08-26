@@ -1,6 +1,6 @@
 // src/pages/PlateCalculatorPage.js
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 import './PlateCalculatorPage.css'; // You'll create this next
 
 const PlateCalculatorPage = () => {
@@ -14,7 +14,7 @@ const PlateCalculatorPage = () => {
 
   const fetchIngredients = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/stock', {
+      const response = await api.get('http://localhost:5000/stock', {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       setIngredients(response.data);

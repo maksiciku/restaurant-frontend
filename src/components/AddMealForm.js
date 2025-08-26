@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 import IngredientScanner from "../components/IngredientScanner";
 
 const API_BASE_URL = process.env.REACT_APP_API_URL;
@@ -21,7 +21,7 @@ const AddMealForm = ({ onAddMeal }) => {
     useEffect(() => {
   const fetchCategories = async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/categories`);
+      const response = await api.get(`${API_BASE_URL}/categories`);
 if (Array.isArray(response.data)) {
   setCategories(response.data);
 } else {
@@ -89,7 +89,7 @@ if (Array.isArray(response.data)) {
       
         if (value.length >= 2) {
           try {
-            const response = await axios.get(`${API_BASE_URL}/stock/search?q=${value}`);
+            const response = await api.get(`${API_BASE_URL}/stock/search?q=${value}`);
             setAutocomplete(response.data || []);
         } catch (error) {
             console.error("❌ Error fetching autocomplete suggestions:", error);
@@ -198,7 +198,7 @@ if (Array.isArray(response.data)) {
                 return;
             }
     
-            const response = await axios.post(`${API_BASE_URL}/meals`, {
+            const response = await api.post(`${API_BASE_URL}/meals`, {
                 name,
                 ingredients,
                 price: parseFloat(price),
@@ -214,7 +214,7 @@ if (Array.isArray(response.data)) {
 
                 const mealId = response.data.meal_id;
     
-                await axios.post(`${API_BASE_URL}/meals/${mealId}/ingredients`, {
+                await api.post(`${API_BASE_URL}/meals/${mealId}/ingredients`, {
                     ingredients: ingredients.map(ing => ({
                         ingredient: ing.name,
                         quantity: ing.amount

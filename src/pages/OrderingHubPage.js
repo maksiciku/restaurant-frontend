@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../api';
 
 const API_BASE = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
@@ -20,9 +20,9 @@ const OrderingHubPage = () => {
     const fetchData = async () => {
       try {
         const [stockRes, supplierRes, smartOrderRes] = await Promise.all([
-          axios.get(`${API_BASE}/stock/order-list`),
-          axios.get(`${API_BASE}/suppliers`),
-          axios.get(`${API_BASE}/smart-order`)
+          api.get(`${API_BASE}/stock/order-list`),
+          api.get(`${API_BASE}/suppliers`),
+          api.get(`${API_BASE}/smart-order`)
         ]);
   
         const rawList = stockRes.data.orderList || [];
@@ -105,7 +105,7 @@ const OrderingHubPage = () => {
 
   const handleRemoveSupplier = async (supplierId) => {
     try {
-      const res = await axios.delete(`${API_BASE}/suppliers/${supplierId}`);
+      const res = await api.delete(`${API_BASE}/suppliers/${supplierId}`);
       if (res.status === 200) {
         setSuppliers(prev => prev.filter(s => s.id !== supplierId));
         console.log('✅ Supplier deleted');
@@ -151,7 +151,7 @@ const OrderingHubPage = () => {
     if (!name.trim()) return;
   
     try {
-      const response = await axios.post(`${API_BASE}/suppliers`, {
+      const response = await api.post(`${API_BASE}/suppliers`, {
         name: name.trim(),
         website: website || '',
         phone: phone || '',
@@ -338,7 +338,7 @@ return (
               <button
                 onClick={async () => {
                   try {
-                    await axios.post(`${API_BASE}/ordering-history`, { groupedOrders });
+                    await api.post(`${API_BASE}/ordering-history`, { groupedOrders });
                     alert("✅ Order history saved!");
                   } catch (err) {
                     alert("❌ Failed to save order.");

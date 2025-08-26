@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../api';
 
 const AddApplianceForm = ({ onApplianceCreated }) => {
   const [type, setType] = useState('Fridge');
@@ -13,7 +13,7 @@ const AddApplianceForm = ({ onApplianceCreated }) => {
     e.preventDefault();
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.post(
+      const response = await api.post(
         'http://localhost:5000/appliances',
         { type, name, storage_number: storageNumber, supplier, notes },
         { headers: { Authorization: `Bearer ${token}` } }

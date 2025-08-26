@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Tesseract from 'tesseract.js';
-import axios from 'axios';
+import api from '../api';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -55,7 +55,7 @@ const IngredientScanner = ({ onScanComplete }) => {
                 const formData = new FormData();
                 formData.append("image", file);
     
-                const response = await axios.post("http://localhost:5000/convert-heic", formData, {
+                const response = await api.post("http://localhost:5000/convert-heic", formData, {
                     headers: { "Content-Type": "multipart/form-data" }
                 });
 
@@ -97,7 +97,7 @@ const IngredientScanner = ({ onScanComplete }) => {
             setDetectedIngredients(uniqueIngredients);
 
             // ✅ Send data to backend
-            await axios.post('http://localhost:5000/ingredients/scanned', {
+            await api.post('http://localhost:5000/ingredients/scanned', {
                 ingredientName: cleanedText.split("\n")[0].trim(),
                 allergens: detectedAllergens,
                 ingredients: uniqueIngredients

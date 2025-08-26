@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -22,7 +22,7 @@ const MenuBuilderPage = () => {
   const fetchMeals = async () => {
   try {
     const token = localStorage.getItem('token'); // ✅ get token
-    const res = await axios.get('http://localhost:5000/meals', {
+    const res = await api.get('http://localhost:5000/meals', {
       headers: {
         Authorization: `Bearer ${token}`,
       },

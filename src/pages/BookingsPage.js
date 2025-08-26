@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { toast } from 'react-toastify';
 
 const BookingsPage = () => {
@@ -22,7 +22,7 @@ const BookingsPage = () => {
   };
 
   const fetchBookings = () => {
-    axios.get('http://localhost:5000/bookings', {
+    api.get('http://localhost:5000/bookings', {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
     })
     .then(res => setBookings(res.data))
@@ -38,13 +38,13 @@ const BookingsPage = () => {
   const formatTime = datetime => new Date(datetime).toLocaleString();
 
   const cancelBooking = (id) => {
-    axios.delete(`http://localhost:5000/bookings/${id}`, {
+    api.delete(`http://localhost:5000/bookings/${id}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
     }).then(() => fetchBookings());
   };
 
   const markAsArrived = (id) => {
-    axios.put(`http://localhost:5000/bookings/arrived/${id}`, {}, {
+    api.put(`http://localhost:5000/bookings/arrived/${id}`, {}, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
     }).then(() => fetchBookings());
   };
@@ -65,7 +65,7 @@ const BookingsPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/bookings', {
+      const response = await api.post('http://localhost:5000/bookings', {
         customer_name,
         phone,
         number_of_people,
@@ -92,7 +92,7 @@ const BookingsPage = () => {
 
   const suggestAlternativeTables = async (bookingTime) => {
     try {
-      const res = await axios.get(`http://localhost:5000/bookings/conflicts?time=${encodeURIComponent(bookingTime)}`, {
+      const res = await api.get(`http://localhost:5000/bookings/conflicts?time=${encodeURIComponent(bookingTime)}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },

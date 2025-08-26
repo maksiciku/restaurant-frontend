@@ -1,7 +1,7 @@
 // src/pages/ChecklistFoldersPage.js
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api';
 
 const ChecklistFoldersPage = () => {
   const [folders, setFolders] = useState([]);
@@ -12,7 +12,7 @@ const ChecklistFoldersPage = () => {
   const fetchFolders = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:5000/checklists', {
+      const response = await api.get('http://localhost:5000/checklists', {
         headers: { Authorization: `Bearer ${token}` },
       });
       setFolders(response.data);
@@ -30,7 +30,7 @@ const ChecklistFoldersPage = () => {
     if (!newFolderName.trim()) return;
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.post('http://localhost:5000/checklists', 
+      const response = await api.post('http://localhost:5000/checklists', 
         { name: newFolderName }, 
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -54,7 +54,7 @@ const ChecklistFoldersPage = () => {
 
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:5000/checklists/${folderId}`, {
+      await api.delete(`http://localhost:5000/checklists/${folderId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 

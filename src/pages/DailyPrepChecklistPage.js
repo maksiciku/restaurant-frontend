@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../api';
 import PreppedItemLabel from '../components/PreppedItemLabel';
 
 const API_BASE = process.env.REACT_APP_API_URL || "http://localhost:5000";
@@ -15,19 +15,19 @@ const DailyPrepChecklistPage = () => {
   }, []);
 
   const fetchChecklist = async () => {
-    const res = await axios.get(`${API_BASE}/prepped-items/daily-checklist`);
+    const res = await api.get(`${API_BASE}/prepped-items/daily-checklist`);
     setChecklist(res.data.checklist || []);
     setLoading(false);
   };
 
   const fetchPreppedItems = async () => {
-    const res = await axios.get(`${API_BASE}/prepped-items`);
+    const res = await api.get(`${API_BASE}/prepped-items`);
     setPreppedItems(res.data || []);
   };
 
   const handlePrepare = async (item) => {
     if (window.confirm(`Prepare ${item.to_prepare} ${item.unit} of ${item.prepped_item}?`)) {
-      await axios.post(`${API_BASE}/prepped-items/prepare`, {
+      await api.post(`${API_BASE}/prepped-items/prepare`, {
         name: item.prepped_item,
         batchQuantity: item.to_prepare
       });

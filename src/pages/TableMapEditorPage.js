@@ -1,6 +1,6 @@
 // src/pages/TableMapEditorPage.js
 import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
+import api from '../api';
 import './tableMap.css';
 import { useNavigate } from 'react-router-dom';
 
@@ -22,7 +22,7 @@ export default function TableMapEditorPage() {
   // ✅ Helper: fetch live table statuses
 const fetchStatuses = async () => {
   try {
-    const { data: dbTables } = await axios.get(`${process.env.REACT_APP_API_URL}/tables`);
+    const { data: dbTables } = await api.get(`${process.env.REACT_APP_API_URL}/tables`);
 
     setTables((prev) =>
       prev.map((t) => {
@@ -39,7 +39,7 @@ const fetchStatuses = async () => {
 };
 
   useEffect(() => {
-    axios.get(API)
+    api.get(API)
       .then(({ data }) => {
         const clean = data.map(t => ({
           ...t,
@@ -70,7 +70,7 @@ useEffect(() => {
       status: 'free',
     };
     try {
-      const { data } = await axios.post(API, payload);
+      const { data } = await api.post(API, payload);
       setTables(p => [...p, { ...payload, id: data.id }]);
       setNewTable({ name: '', seats: 2 });
       setShape('circle');
@@ -82,7 +82,7 @@ useEffect(() => {
 
   const deleteTable = async (id) => {
     try {
-      await axios.delete(`${API}/${id}`);
+      await api.delete(`${API}/${id}`);
       setTables(p => p.filter(t => t.id !== id));
     } catch (e) {
       console.error('❌ delete', e);
@@ -135,7 +135,7 @@ const handleMouseUp = async () => {
   if (!drag) return;
   const tbl = tables.find(t => t.id === drag.id);
   setDrag(null);
-  try { await axios.post(API, tbl); } catch (e) { console.error('❌ save', e); }
+  try { await api.post(API, tbl); } catch (e) { console.error('❌ save', e); }
 };
 
   const handleMouseDown = (e, tbl) => {
@@ -342,7 +342,7 @@ const handleMouseUp = async () => {
             <button
               onClick={async () => {
                 try {
-                  await axios.post(API, editTable);
+                  await api.post(API, editTable);
                   setTables(prev =>
                     prev.map(t => (t.id === editTable.id ? editTable : t))
                   );

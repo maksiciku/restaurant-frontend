@@ -8,6 +8,8 @@ import AddMealForm from '../components/AddMealForm';
 import IngredientScanner from '../components/IngredientScanner';
 import api from '../api';
 
+const res = await api.get('/meals/paginated?page=1&limit=10');
+
 const MealsPage = () => {
   const [meals, setMeals] = useState([]);
   const [showAddForm, setShowAddForm] = useState(false);

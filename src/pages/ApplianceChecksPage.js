@@ -1,6 +1,6 @@
 // src/pages/ApplianceChecksPage.js
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../api';
 
 const ApplianceChecksPage = () => {
   const [checks, setChecks] = useState([]);
@@ -16,7 +16,7 @@ const ApplianceChecksPage = () => {
 
   const fetchChecks = async () => {
     try {
-      const res = await axios.get(`${API}/appliance-checks`);
+      const res = await api.get(`${API}/appliance-checks`);
       setChecks(res.data);
     } catch (err) {
       console.error('Failed to fetch checks:', err.message);
@@ -26,7 +26,7 @@ const ApplianceChecksPage = () => {
   const fetchAppliances = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get(`${API}/appliances`, {
+      const res = await api.get(`${API}/appliances`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setAppliances(res.data);
