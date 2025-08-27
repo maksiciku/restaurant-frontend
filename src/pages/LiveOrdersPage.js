@@ -48,7 +48,7 @@ const toggleItem  = (key) => setOpenItem(prev => ({ ...prev, [key]: !prev[key] }
   // --- fetch estimated delay ---
   const fetchEstimatedDelay = async () => {
     try {
-      const res = await api.get(`${API_BASE}/kitchen/estimated-delay`);
+      const res = await api.get(`/kitchen/estimated-delay`);
       setEstimatedDelay(res.data.delay);
     } catch (err) {
       console.error("❌ Failed to fetch estimated delay", err);
@@ -59,7 +59,7 @@ const toggleItem  = (key) => setOpenItem(prev => ({ ...prev, [key]: !prev[key] }
   const handleDeliveryAction = async (batchId, status) => {
     try {
       const response = await api.put(
-        `${API_BASE}/orders/delivery-status/${batchId}`,
+        `/orders/delivery-status/${batchId}`,
         { status },
         { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
       );
@@ -76,7 +76,7 @@ const toggleItem  = (key) => setOpenItem(prev => ({ ...prev, [key]: !prev[key] }
   // --- fetch categories (custom + defaults) ---
   useEffect(() => {
     axios
-      .get(`${API_BASE}/categories`, {
+      .get(`/categories`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       })
       .then((res) => {
@@ -109,7 +109,7 @@ const toggleItem  = (key) => setOpenItem(prev => ({ ...prev, [key]: !prev[key] }
 
   const fetchOrders = () => {
     axios
-      .get(`${API_BASE}/orders`, {
+      .get(`/orders`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       })
       .then((res) => {
@@ -216,7 +216,7 @@ const getItemNote = (item) => {
 
   const deleteOrder = async (id) => {
     try {
-      await api.delete(`${API_BASE}/orders/${id}`);
+      await api.delete(`/orders/${id}`);
       fetchOrders();
       setClearedOrders((prev) => [...prev, orders.find((o) => o.id === id)]);
     } catch (err) {
@@ -226,7 +226,7 @@ const getItemNote = (item) => {
 
   const clearAllOrders = async () => {
     try {
-      await api.delete(`${API_BASE}/orders/clear-all`, {
+      await api.delete(`/orders/clear-all`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
       setClearedOrders((prev) => [...prev, ...orders]);
@@ -271,7 +271,7 @@ const getItemNote = (item) => {
     const redo = window.confirm("Do you want to redo this order?");
 
     try {
-      await api.post(`${API_BASE}/reports`, {
+      await api.post(`/reports`, {
         order_id: orderId,
         item_name: itemName,
         reason,
@@ -289,7 +289,7 @@ const getItemNote = (item) => {
 
   const fetchPauseStatus = async () => {
     try {
-      const res = await api.get(`${API_BASE}/kitchen/pause-status`);
+      const res = await api.get(`/kitchen/pause-status`);
       setIsPaused(res.data.is_paused);
     } catch (err) {
       console.error("❌ Failed to fetch pause status", err);
@@ -298,7 +298,7 @@ const getItemNote = (item) => {
 
   const togglePause = async () => {
     try {
-      await api.put(`${API_BASE}/kitchen/pause-status`, { is_paused: !isPaused });
+      await api.put(`/kitchen/pause-status`, { is_paused: !isPaused });
       setIsPaused(!isPaused);
     } catch (err) {
       console.error("❌ Failed to update pause status", err);

@@ -122,7 +122,7 @@ useEffect(() => {
     const fetchItemsByCategory = async (category) => {
   try {
     const token = localStorage.getItem('token');
-    const res = await api.get(`${API}/meals?category=${encodeURIComponent(category)}`, {
+    const res = await api.get(`/meals?category=${encodeURIComponent(category)}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     setMeals(Array.isArray(res.data) ? res.data : []);
@@ -283,7 +283,7 @@ const visibleMeals = meals.filter(m =>
 const fetchUnpaidOrders = async (tableNumber) => {
   try {
     const response = await api.get(
-      `${API}/orders/by-table/${encodeURIComponent(tableNumber)}`
+      `/orders/by-table/${encodeURIComponent(tableNumber)}`
     );
     setOrders(response.data);
   } catch (error) {
@@ -293,7 +293,7 @@ const fetchUnpaidOrders = async (tableNumber) => {
 
 const fetchCategories = async () => {
   try {
-    const res = await api.get(`${API}/categories`);
+    const res = await api.get(`/categories`);
     setCategories(res.data);
     if (res.data.length) {
       setSelectedCategory(res.data[0].name);
@@ -459,7 +459,7 @@ const closeTable = async () => {
 
 const fetchOrders = async () => {
   try {
-    const res = await api.get(`${API}/orders/by-table/${encodeURIComponent(selectedTable)}`);
+    const res = await api.get(`/orders/by-table/${encodeURIComponent(selectedTable)}`);
     setPreviousOrders(res.data);
   } catch (err) {
     console.error('❌ Error fetching orders:', err.message);
@@ -474,7 +474,7 @@ const handleSplitPay = async () => {
 
   try {
     console.log('🔍 Sending itemIds:', selectedItems);
-     const response = await api.post(`${API}/orders/split-pay`, {
+     const response = await api.post(`/orders/split-pay`, {
    itemIds: selectedItems,
  }, {
    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
@@ -498,7 +498,7 @@ const handleCategoryClick = (name) => {
 const handleDeleteCategory = async (id) => {
   if (!window.confirm('Delete this category? This cannot be undone.')) return;
   try {
-    await api.delete(`${API}/categories/${id}`, {
+    await api.delete(`/categories/${id}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
     });
     // Hide delete icon and refresh list
@@ -553,7 +553,7 @@ const handleDeleteCategory = async (id) => {
 
 const handleSplitByPeople = async () => {
   try {
-    const response = await api.post(`${API}/orders/split-by-people`, {
+    const response = await api.post(`/orders/split-by-people`, {
       table_number: selectedTable,
       people: peopleCount
     });
@@ -568,7 +568,7 @@ const handleSplitByPeople = async () => {
 
 const handlePayShare = async () => {
   try {
-    const response = await api.post(`${API}/orders/pay-share`, {
+    const response = await api.post(`/orders/pay-share`, {
       table_number: selectedTable,
       amount: sharePerPerson
     });
@@ -600,7 +600,7 @@ const handleCompletePayment = async () => {
     }
 
     const unpaidRes = await api.get(
-      `${API}/orders/by-table/${encodeURIComponent(selectedTable)}`,
+      `/orders/by-table/${encodeURIComponent(selectedTable)}`,
       { headers: { Authorization: `Bearer ${token}` } }
     );
     const allItems = Array.isArray(unpaidRes.data) ? unpaidRes.data : [];
@@ -614,7 +614,7 @@ const handleCompletePayment = async () => {
     const itemIds = unpaid.map(i => i.id);
 
     // 3) Mark them paid
-    await api.post(`${API}/orders/mark-paid`, {
+    await api.post(`/orders/mark-paid`, {
       tableNumber: selectedTable,
       itemIds,
       paymentMethod: selectedPaymentMethod || 'Cash',
@@ -668,7 +668,7 @@ const handleTransferTable = async (targetTable) => {
   }
 
   try {
-    await api.put(`${API}/pos-orders/transfer-table`, {
+    await api.put(`/pos-orders/transfer-table`, {
       oldTable: selectedTable.toString(),
       newTable: targetTable.toString()
     });
@@ -1249,7 +1249,7 @@ const applyDiscount = () => {
           className="pos-button save"
           onClick={async ()=>{
             try{
-              await api.post(`${API}/reports`, {
+              await api.post(`/reports`, {
                 order_id: complaint.order_id || null,
                 item_name: complaint.item_name,
                 reason: complaint.reason,

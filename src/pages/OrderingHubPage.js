@@ -20,9 +20,9 @@ const OrderingHubPage = () => {
     const fetchData = async () => {
       try {
         const [stockRes, supplierRes, smartOrderRes] = await Promise.all([
-          api.get(`${API_BASE}/stock/order-list`),
-          api.get(`${API_BASE}/suppliers`),
-          api.get(`${API_BASE}/smart-order`)
+          api.get(`/stock/order-list`),
+          api.get(`/suppliers`),
+          api.get(`/smart-order`)
         ]);
   
         const rawList = stockRes.data.orderList || [];
@@ -105,7 +105,7 @@ const OrderingHubPage = () => {
 
   const handleRemoveSupplier = async (supplierId) => {
     try {
-      const res = await api.delete(`${API_BASE}/suppliers/${supplierId}`);
+      const res = await api.delete(`/suppliers/${supplierId}`);
       if (res.status === 200) {
         setSuppliers(prev => prev.filter(s => s.id !== supplierId));
         console.log('✅ Supplier deleted');
@@ -151,7 +151,7 @@ const OrderingHubPage = () => {
     if (!name.trim()) return;
   
     try {
-      const response = await api.post(`${API_BASE}/suppliers`, {
+      const response = await api.post(`/suppliers`, {
         name: name.trim(),
         website: website || '',
         phone: phone || '',
@@ -338,7 +338,7 @@ return (
               <button
                 onClick={async () => {
                   try {
-                    await api.post(`${API_BASE}/ordering-history`, { groupedOrders });
+                    await api.post(`/ordering-history`, { groupedOrders });
                     alert("✅ Order history saved!");
                   } catch (err) {
                     alert("❌ Failed to save order.");

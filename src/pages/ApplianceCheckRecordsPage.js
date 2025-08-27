@@ -14,7 +14,7 @@ const ApplianceCheckRecordsPage = () => {
   const fetchRecords = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await api.get(`${API}/appliance-checks`, {
+      const res = await api.get(`/appliance-checks`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setRecords(res.data);

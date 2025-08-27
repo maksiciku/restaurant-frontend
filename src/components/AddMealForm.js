@@ -21,7 +21,7 @@ const AddMealForm = ({ onAddMeal }) => {
     useEffect(() => {
   const fetchCategories = async () => {
     try {
-      const response = await api.get(`${API_BASE_URL}/categories`);
+      const response = await api.get(`/categories`);
 if (Array.isArray(response.data)) {
   setCategories(response.data);
 } else {
@@ -41,7 +41,7 @@ if (Array.isArray(response.data)) {
         if (!ingredientName.trim()) return;
     
         try {
-            const response = await fetch(`${API_BASE_URL}/ingredients/scanned`, {
+            const response = await fetch(`/ingredients/scanned`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ ingredientName: ingredientName.trim().toLowerCase() })
@@ -89,7 +89,7 @@ if (Array.isArray(response.data)) {
       
         if (value.length >= 2) {
           try {
-            const response = await api.get(`${API_BASE_URL}/stock/search?q=${value}`);
+            const response = await api.get(`/stock/search?q=${value}`);
             setAutocomplete(response.data || []);
         } catch (error) {
             console.error("❌ Error fetching autocomplete suggestions:", error);
@@ -108,7 +108,7 @@ if (Array.isArray(response.data)) {
         }
     
         try {
-            const response = await fetch(`${API_BASE_URL}/ingredients/scanned`, {
+            const response = await fetch(`/ingredients/scanned`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ ingredientName: ingredientName.trim().toLowerCase() })
@@ -143,7 +143,7 @@ if (Array.isArray(response.data)) {
         setIngredientName(suggestion);
       
         try {
-            const response = await fetch(`${API_BASE_URL}/ingredients/scanned`, {
+            const response = await fetch(`/ingredients/scanned`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ ingredientName: suggestion })
@@ -198,7 +198,7 @@ if (Array.isArray(response.data)) {
                 return;
             }
     
-            const response = await api.post(`${API_BASE_URL}/meals`, {
+            const response = await api.post(`/meals`, {
                 name,
                 ingredients,
                 price: parseFloat(price),
@@ -214,7 +214,7 @@ if (Array.isArray(response.data)) {
 
                 const mealId = response.data.meal_id;
     
-                await api.post(`${API_BASE_URL}/meals/${mealId}/ingredients`, {
+                await api.post(`/meals/${mealId}/ingredients`, {
                     ingredients: ingredients.map(ing => ({
                         ingredient: ing.name,
                         quantity: ing.amount

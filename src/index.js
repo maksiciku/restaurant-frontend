@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import api from './api';
-import './axios-bridge';
+import './fetch-bridge';
 
 api.defaults.baseURL = process.env.REACT_APP_API_URL || '/api';
 

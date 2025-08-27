@@ -20,7 +20,6 @@ const KNOWN_BACKENDS = [
 
 // normalize hard-coded absolute URLs to relative so baseURL + Vercel rewrites work
 function normalizeUrl(url = '') {
-  // strip known origins
   for (const origin of KNOWN_BACKENDS) {
     if (url.startsWith(origin + '/')) {
       url = url.slice(origin.length);
@@ -31,10 +30,7 @@ function normalizeUrl(url = '') {
       break;
     }
   }
-  // collapse accidental double-prefixes like /api/api/...
   url = url.replace(/^\/api\/api\//, '/api/');
-
-  // ensure leading slash for relative requests
   if (!/^https?:\/\//i.test(url) && !url.startsWith('/')) {
     url = '/' + url;
   }
@@ -43,10 +39,8 @@ function normalizeUrl(url = '') {
 
 const api = axios.create({ baseURL: BASE_URL });
 
-// attach token + normalize URLs
 api.interceptors.request.use((config) => {
   if (config.url) config.url = normalizeUrl(config.url);
-
   const token = localStorage.getItem('token');
   if (token) {
     config.headers = config.headers || {};
@@ -55,7 +49,6 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// optional: force re-login on 401/403
 api.interceptors.response.use(
   (res) => res,
   (err) => {

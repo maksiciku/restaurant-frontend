@@ -16,7 +16,7 @@ const ApplianceChecksPage = () => {
 
   const fetchChecks = async () => {
     try {
-      const res = await api.get(`${API}/appliance-checks`);
+      const res = await api.get(`/appliance-checks`);
       setChecks(res.data);
     } catch (err) {
       console.error('Failed to fetch checks:', err.message);
@@ -26,7 +26,7 @@ const ApplianceChecksPage = () => {
   const fetchAppliances = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await api.get(`${API}/appliances`, {
+      const res = await api.get(`/appliances`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setAppliances(res.data);

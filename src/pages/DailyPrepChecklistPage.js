@@ -15,19 +15,19 @@ const DailyPrepChecklistPage = () => {
   }, []);
 
   const fetchChecklist = async () => {
-    const res = await api.get(`${API_BASE}/prepped-items/daily-checklist`);
+    const res = await api.get(`/prepped-items/daily-checklist`);
     setChecklist(res.data.checklist || []);
     setLoading(false);
   };
 
   const fetchPreppedItems = async () => {
-    const res = await api.get(`${API_BASE}/prepped-items`);
+    const res = await api.get(`/prepped-items`);
     setPreppedItems(res.data || []);
   };
 
   const handlePrepare = async (item) => {
     if (window.confirm(`Prepare ${item.to_prepare} ${item.unit} of ${item.prepped_item}?`)) {
-      await api.post(`${API_BASE}/prepped-items/prepare`, {
+      await api.post(`/prepped-items/prepare`, {
         name: item.prepped_item,
         batchQuantity: item.to_prepare
       });

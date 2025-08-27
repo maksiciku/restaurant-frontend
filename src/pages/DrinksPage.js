@@ -3,8 +3,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AddIngredientForm from '../components/AddIngredientsForm';
 import IngredientScanner from '../components/IngredientScanner';
-import api from '../api';   // or './api' depending on relative path
-
+import api from '../api';
 
 const API_BASE = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
@@ -31,7 +30,7 @@ const DrinksPage = () => {
     }, []);    
 
     useEffect(() => {
-        fetch(`${API_BASE}/suppliers`, {
+        fetch(`/suppliers`, {
             headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         })
         .then((res) => res.json())
@@ -61,7 +60,7 @@ const DrinksPage = () => {
     // ✅ Fetch drink order history
     const fetchDrinkOrders = async () => {
         try {
-            const response = await api.get(`${API_BASE}/drinks/orders`, {
+            const response = await api.get(`/drinks/orders`, {
                 headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
             });
             setDrinkOrders(response.data.orders || []);
@@ -74,7 +73,7 @@ const DrinksPage = () => {
     // ✅ Fetch drinks that need restocking
     const fetchRestockList = async () => {
         try {
-            const response = await api.get(`${API_BASE}/drinks/restock-list`, {  // ✅ FIXED: Use API_BASE_URL
+            const response = await api.get(`/drinks/restock-list`, {  // ✅ FIXED: Use API_BASE_URL
                 headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
             });    
 
@@ -101,7 +100,7 @@ const fetchRestockOrders = async () => {
 
 const fetchSuppliers = async () => {
     try {
-        const response = await fetch(`${API_BASE}/drinks/suppliers`, {
+        const response = await fetch(`/drinks/suppliers`, {
             headers: { 
                 Authorization: `Bearer ${localStorage.getItem('token')}`,
                 "Content-Type": "application/json"  // ✅ FIXED: Added Content-Type
@@ -136,7 +135,7 @@ const handleAutoRestock = async (drinkName, neededQuantity) => {
 
         const bestSupplier = availableSuppliers[0]; // Pick best supplier
 
-        const response = await api.post(`${API_BASE}/drinks/auto-restock`, {
+        const response = await api.post(`/drinks/auto-restock`, {
             drink_name: drinkName,
             needed_quantity: neededQuantity,
             supplier_name: bestSupplier.supplier_name,
@@ -195,7 +194,7 @@ const handleManualRestock = async () => {
         }
 
         try {
-            await api.post(`${API_BASE}/drinks`, newDrink, {
+            await api.post(`/drinks`, newDrink, {
                 headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
             });
 
@@ -217,7 +216,7 @@ const handleManualRestock = async () => {
         }
     
         try {
-            const response = await api.post(`${API_BASE}/drinks/order`, {
+            const response = await api.post(`/drinks/order`, {
                 drink_name: drink.name, // ✅ Removed `.trim().toLowerCase()` to ensure correct format
                 quantity: 1,
             }, {
@@ -246,7 +245,7 @@ const handleManualRestock = async () => {
     
         if (!updatedName || !updatedQuantity || !updatedPrice) return;
     
-        fetch(`${API_BASE}/drinks/${drink.id}`, {
+        fetch(`/drinks/${drink.id}`, {
             method: "PUT",
             headers: { 
                 "Content-Type": "application/json",
@@ -278,7 +277,7 @@ const handleManualRestock = async () => {
             return;
         }
     
-        fetch(`${API_BASE}/drinks/${drinkId}`, {
+        fetch(`/drinks/${drinkId}`, {
             method: "DELETE",
             headers: {
                 "Authorization": `Bearer ${token}` // ✅ Attach token for authentication
@@ -348,7 +347,7 @@ const handleAddSupplier = async () => {
     }
 
     try {
-        await api.post(`${API_BASE}/drinks/suppliers`, newSupplier, {
+        await api.post(`/drinks/suppliers`, newSupplier, {
             headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         });
 

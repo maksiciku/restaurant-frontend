@@ -28,7 +28,7 @@ const ChecklistFolderDetailsPage = () => {
   const fetchAppliances = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await api.get(`${API}/appliances`, {
+      const res = await api.get(`/appliances`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       const appliancesWithEditing = res.data.map(a => ({ ...a, editing: false }));
@@ -59,7 +59,7 @@ const ChecklistFolderDetailsPage = () => {
     if (!temp) return alert('Please enter temperature.');
 
     try {
-      await api.post(`${API}/appliance-checks`, {
+      await api.post(`/appliance-checks`, {
         appliance_id: applianceId,
         temperature: temp,
         shift,
@@ -77,7 +77,7 @@ const ChecklistFolderDetailsPage = () => {
   const createAppliance = async () => {
     try {
       const token = localStorage.getItem('token');
-      await api.post(`${API}/appliances`, applianceForm, {
+      await api.post(`/appliances`, applianceForm, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setApplianceForm({ type: 'Fridge', name: '', storage_number: '', supplier: '', notes: '' });
@@ -110,7 +110,7 @@ const ChecklistFolderDetailsPage = () => {
   const saveApplianceEdit = async (appliance) => {
     try {
       const token = localStorage.getItem('token');
-      await api.put(`${API}/appliances/${appliance.id}`, appliance, {
+      await api.put(`/appliances/${appliance.id}`, appliance, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchAppliances();
@@ -125,7 +125,7 @@ const ChecklistFolderDetailsPage = () => {
     if (!window.confirm('Are you sure you want to delete this appliance?')) return;
     try {
       const token = localStorage.getItem('token');
-      await api.delete(`${API}/appliances/${id}`, {
+      await api.delete(`/appliances/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchAppliances();

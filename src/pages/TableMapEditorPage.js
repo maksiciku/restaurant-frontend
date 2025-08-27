@@ -82,7 +82,7 @@ useEffect(() => {
 
   const deleteTable = async (id) => {
     try {
-      await api.delete(`${API}/${id}`);
+      await api.delete(`/${id}`);
       setTables(p => p.filter(t => t.id !== id));
     } catch (e) {
       console.error('❌ delete', e);

@@ -4,7 +4,7 @@ const API_BASE = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
 export async function fetchMealIngredients(mealName) {
   try {
-    const res = await api.get(`${API_BASE}/meals/${mealName}/ingredients`, {
+    const res = await api.get(`/meals/${mealName}/ingredients`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
