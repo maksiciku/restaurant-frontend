@@ -20,7 +20,7 @@ const AnalyticsDashboard = () => {
     const userRole = localStorage.getItem('role');
 
     useEffect(() => {
-        axios
+        api
             .get(`${process.env.REACT_APP_API_URL}/analytics/daily`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -36,7 +36,7 @@ const AnalyticsDashboard = () => {
     }, []);
 
     useEffect(() => {
-        axios
+        api
             .get(`${process.env.REACT_APP_API_URL}/analytics`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`,

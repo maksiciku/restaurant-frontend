@@ -75,7 +75,7 @@ const toggleItem  = (key) => setOpenItem(prev => ({ ...prev, [key]: !prev[key] }
 
   // --- fetch categories (custom + defaults) ---
   useEffect(() => {
-    axios
+    api
       .get(`/categories`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       })
@@ -108,7 +108,7 @@ const toggleItem  = (key) => setOpenItem(prev => ({ ...prev, [key]: !prev[key] }
   }, [orders]);
 
   const fetchOrders = () => {
-    axios
+    api
       .get(`/orders`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       })

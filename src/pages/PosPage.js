@@ -134,7 +134,7 @@ useEffect(() => {
 
     useEffect(() => {
     if (selectedTable) {
-      axios
+      api
         .get(`${process.env.REACT_APP_API_URL}/tables/${selectedTable}/total`)
         .then((res) => setTableTotal(res.data.total || 0))
         .catch((err) => setTableTotal(0));
@@ -165,7 +165,7 @@ useEffect(() => {
   
     console.log('🟢 Fetching unpaid orders for table:', selectedTable);
   
-    axios
+    api
       .get(`${process.env.REACT_APP_API_URL}/orders/by-table/${encodeURIComponent(selectedTable)}`, {
         headers: {
           Authorization: `Bearer ${token}`,
